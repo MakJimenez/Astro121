@@ -7,10 +7,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Title of Data Trial
-trial = "birdietest24_1420.405" 
+trial = "birdfreq1420" 
 sample_rate = 2.9e6
 block_size = 131072 
 blocks = 4 
+
+# Data Collection Information
+frequency = 1420
+frequency_units = "MHz"
+amplitude = -40
+amplitude_units = "dBm" #readout from wave generator. stored in data as ADC
+direct = False
+unix_time = ugradio.timing.unix_time()
+local_time = ugradio.timing.local_time()
+location = "NCH" 
+direction = "8th rung from the left, pointing north (aligned with square at bottom), above red roof"
+notes = "Testing 1420 MHz from wave generator, higher amplitude at -40 to get a larger peak in power spectra. Straight SDR to Horn.  "
 
 # Note: Use this text file to collect aliased data 
 sdr = ugradio.sdr.SDR(direct=False, center_freq=1420.155e6, sample_rate=2.9e6, fir_coeffs=None)
@@ -42,24 +54,9 @@ plt.ylabel("Power")
 plt.title("Power")
 print(plt.show())
 
-
-# Data Collection Information
-frequency = 1420.405
-frequency_units = "MHz"
-amplitude = -80
-amplitude_units = "dBm" #readout from wave generator. stored in data as ADC
-direct = False
-unix_time = ugradio.timing.unix_time()
-local_time = ugradio.timing.local_time()
-location = "NCH" 
-direction = "~pointing at  zenith,empty of water"
-notes = "taking everything off (direct SDR to horm connection), 1420.405 MHz, -80 dB,singal generator on, chord with label = 2 "
-
-
 # Saving info as numpy array
 info = np.array([f"File:{trial}",f"Frequency:{frequency} {frequency_units}", f"Amplitude:{amplitude} {amplitude_units}", f"Sampling Rate:{sample_rate}", f"Direct:{direct}", f"Unix: {unix_time}", f"Local: {local_time}", f"Location: {location}", f"Direction: {direction}", f"Notes: {notes}"])
 print(info)
 
 # Saving data into .npz zip file
 np.savez(f"{trial}.npz", info, data)
-
