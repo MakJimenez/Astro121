@@ -9,6 +9,7 @@ def pwr(data, index, sample_rate, xmin=0, xmax=1421):
 	index: integer number within block range of data taken. avoid 0.
 	sample_rate : sample freqeucny, in MHz
 	"""
+
 	readdata = np.load(data)
 	notes = readdata["arr_0"]
 	print(notes)

@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Title of Data Trial
-trial = "birdfreq1420" 
+trial = "cable1gainfreq1420_2" 
 sample_rate = 2.9e6
 block_size = 131072 
 blocks = 4 
@@ -15,17 +15,17 @@ blocks = 4
 # Data Collection Information
 frequency = 1420
 frequency_units = "MHz"
-amplitude = -40
+amplitude = -80
 amplitude_units = "dBm" #readout from wave generator. stored in data as ADC
 direct = False
 unix_time = ugradio.timing.unix_time()
 local_time = ugradio.timing.local_time()
 location = "NCH" 
 direction = "8th rung from the left, pointing north (aligned with square at bottom), above red roof"
-notes = "Testing 1420 MHz from wave generator, higher amplitude at -40 to get a larger peak in power spectra. Straight SDR to Horn.  "
+notes = "Looks like small signal, testing higher gain. Testing 15 dB gain again with water emptied."
 
 # Note: Use this text file to collect aliased data 
-sdr = ugradio.sdr.SDR(direct=False, center_freq=1420.155e6, sample_rate=2.9e6, fir_coeffs=None)
+sdr = ugradio.sdr.SDR(direct=False, center_freq=1420.155e6, sample_rate=2.9e6, gain=15, fir_coeffs=None)
 data = sdr.capture_data(131072, nblocks=4)
 print(sdr)
 print(data)
@@ -47,7 +47,8 @@ shifted_ft = np.fft.fftshift(np.fft.fft(data[3]))
 power = np.abs(shifted_ft) ** 2
 f = np.fft.fftshift(np.fft.fftfreq(N, d=1/sample_rate))
 
-plt.plot(f / 1e3, power) # 1e3 is unit conversion from MHz to kHz
+plt.plot(f / 1e3, power) # 1e3 is unit conversion from GHz to MHz
+plt.axvline(x=frequency, linestyle=":", color="black")
 plt.xlim(0, 1600)
 plt.xlabel("Frequency")
 plt.ylabel("Power")
