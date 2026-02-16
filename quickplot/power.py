@@ -14,11 +14,12 @@ def pwr(data, index, sample_rate, xmin=0, xmax=1421):
 	notes = readdata["arr_0"]
 	print(notes)
 	indexdata = readdata["arr_1"]
-
+	data = indexdata[index]
 	N = len(indexdata[index])
 
+	# Plotting
 	plt.figure(figsize=(10,4))
-	shifted_ft = np.fft.fftshift(np.fft.fft(bird7[3]))
+	shifted_ft = np.fft.fftshift(np.fft.fft(indexdata[index]))
 	power = np.abs(shifted_ft) ** 2
 	f = np.fft.fftshift(np.fft.fftfreq(N, d=1/sample_rate))
 

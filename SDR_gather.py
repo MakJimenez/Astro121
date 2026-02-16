@@ -7,25 +7,25 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Title of Data Trial
-trial = "cable1gainfreq1420_2" 
+trial = "cable1gainfreq1420_4" 
 sample_rate = 2.9e6
 block_size = 131072 
 blocks = 4 
 
 # Data Collection Information
-frequency = 1420
+frequency = 1420.405
 frequency_units = "MHz"
-amplitude = -80
+amplitude = -40
 amplitude_units = "dBm" #readout from wave generator. stored in data as ADC
 direct = False
 unix_time = ugradio.timing.unix_time()
 local_time = ugradio.timing.local_time()
 location = "NCH" 
 direction = "8th rung from the left, pointing north (aligned with square at bottom), above red roof"
-notes = "Looks like small signal, testing higher gain. Testing 15 dB gain again with water emptied."
+notes = "Testing lower gain = 3 dB with higher amplitude at -40 dBm. Changed frequency to 1420.405 MHz."
 
 # Note: Use this text file to collect aliased data 
-sdr = ugradio.sdr.SDR(direct=False, center_freq=1420.155e6, sample_rate=2.9e6, gain=15, fir_coeffs=None)
+sdr = ugradio.sdr.SDR(direct=False, center_freq=1420.155e6, sample_rate=2.9e6, gain=3, fir_coeffs=None)
 data = sdr.capture_data(131072, nblocks=4)
 print(sdr)
 print(data)
