@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Title of Data Trial
-trial = "birdietest9_1420.405" 
+trial = "birdietest24_1420.405" 
 sample_rate = 2.9e6
 block_size = 131072 
 blocks = 4 
@@ -52,8 +52,8 @@ direct = False
 unix_time = ugradio.timing.unix_time()
 local_time = ugradio.timing.local_time()
 location = "NCH" 
-direction = "Roughly north, ~45 deg from zenith, pointing above red roof on campbell"
-notes = "Changing y axis to only plot raw power."
+direction = "~pointing at  zenith,empty of water"
+notes = "taking everything off (direct SDR to horm connection), 1420.405 MHz, -80 dB,singal generator on, chord with label = 2 "
 
 
 # Saving info as numpy array
