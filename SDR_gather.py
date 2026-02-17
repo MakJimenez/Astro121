@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Title of Data Trial
-trial = "cable1gainfreq1420_4" 
+trial = "freq1420.405" 
 sample_rate = 2.9e6
 block_size = 131072 
 blocks = 4 
@@ -15,17 +15,17 @@ blocks = 4
 # Data Collection Information
 frequency = 1420.405
 frequency_units = "MHz"
-amplitude = -40
+amplitude = 0
 amplitude_units = "dBm" #readout from wave generator. stored in data as ADC
 direct = False
 unix_time = ugradio.timing.unix_time()
 local_time = ugradio.timing.local_time()
 location = "NCH" 
 direction = "8th rung from the left, pointing north (aligned with square at bottom), above red roof"
-notes = "Testing lower gain = 3 dB with higher amplitude at -40 dBm. Changed frequency to 1420.405 MHz."
+notes = "Forgot to change the name, the previous file names freq1420 is also 1420.405 MHz. Moving frequency to confirm we are observing the correct signal."
 
 # Note: Use this text file to collect aliased data 
-sdr = ugradio.sdr.SDR(direct=False, center_freq=1420.155e6, sample_rate=2.9e6, gain=3, fir_coeffs=None)
+sdr = ugradio.sdr.SDR(direct=False, center_freq=1420.395e6, sample_rate=2.9e6, gain=3, fir_coeffs=None)
 data = sdr.capture_data(131072, nblocks=4)
 print(sdr)
 print(data)
@@ -41,6 +41,8 @@ print(plt.show()) # prints wave data just collected
 
 # Quick FT Power Plot
 N = len(data[3])
+f_center = 1420.395e3
+f_expec = 1420e3 - f_center
 
 plt.figure(figsize=(10,4))
 shifted_ft = np.fft.fftshift(np.fft.fft(data[3]))
@@ -48,7 +50,7 @@ power = np.abs(shifted_ft) ** 2
 f = np.fft.fftshift(np.fft.fftfreq(N, d=1/sample_rate))
 
 plt.plot(f / 1e3, power) # 1e3 is unit conversion from GHz to MHz
-plt.axvline(x=frequency, linestyle=":", color="black")
+plt.axvline(x=f_expec, linestyle=":", color="black")
 plt.xlim(0, 1600)
 plt.xlabel("Frequency")
 plt.ylabel("Power")
